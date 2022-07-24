@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="ibis2spice" Version="11000" InternalType="Console">
   <VirtualDirectory Name="ibis2spice">
+    <File Name="ibis2spice.h"/>
+    <File Name="ibis2spice.cpp"/>
+    <File Name="main.cpp"/>
     <File Name="ibis.h"/>
     <File Name="ibis.cpp"/>
     <File Name="v89c.ibs"/>
@@ -98,7 +101,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="src">
-    <File Name="main.cpp"/>
-  </VirtualDirectory>
 </CodeLite_Project>

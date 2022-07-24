@@ -58,9 +58,9 @@ public:
     
     struct package
     {
-        std::vector<value_string> r_pkg;
-        std::vector<value_string> l_pkg;
-        std::vector<value_string> c_pkg;
+        value_string r_pkg;
+        value_string l_pkg;
+        value_string c_pkg;
     };
     
     
@@ -190,8 +190,8 @@ public:
         std::vector<value_string> pullup;
         std::vector<value_string> power_clamp;
         ramp ramp_;
-        std::vector<waveform> falling_waveform;
-        std::vector<waveform> rising_waveform;
+        std::vector<waveform> falling_waveforms;
+        std::vector<waveform> rising_waveforms;
         std::vector<add_submodel> add_submodels;
     };
     

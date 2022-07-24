@@ -577,27 +577,21 @@ void ibis::_load_package(const std::vector<std::string>& v_str)
         std::string type = _make_lower(_read_n(v_str_, 0));
         if (type == "r_pkg")
         {
-            value_string val;
-            val.typ = _read_n(v_str_, 1);
-            val.min = _read_n(v_str_, 2);
-            val.max = _read_n(v_str_, 3);
-            _components.back().package_.r_pkg.push_back(val);
+            _components.back().package_.r_pkg.typ = _read_n(v_str_, 1);
+            _components.back().package_.r_pkg.min = _read_n(v_str_, 2);
+            _components.back().package_.r_pkg.max = _read_n(v_str_, 3);
         }
         else if (type == "l_pkg")
         {
-            value_string val;
-            val.typ = _read_n(v_str_, 1);
-            val.min = _read_n(v_str_, 2);
-            val.max = _read_n(v_str_, 3);
-            _components.back().package_.l_pkg.push_back(val);
+            _components.back().package_.l_pkg.typ = _read_n(v_str_, 1);
+            _components.back().package_.l_pkg.min = _read_n(v_str_, 2);
+            _components.back().package_.l_pkg.max = _read_n(v_str_, 3);
         }
         else if (type == "c_pkg")
         {
-            value_string val;
-            val.typ = _read_n(v_str_, 1);
-            val.min = _read_n(v_str_, 2);
-            val.max = _read_n(v_str_, 3);
-            _components.back().package_.c_pkg.push_back(val);
+            _components.back().package_.c_pkg.typ = _read_n(v_str_, 1);
+            _components.back().package_.c_pkg.min = _read_n(v_str_, 2);
+            _components.back().package_.c_pkg.max = _read_n(v_str_, 3);
         }
     }
 }
@@ -1037,7 +1031,7 @@ void ibis::_load_falling_waveform(const std::vector<std::string>& v_str)
             wave.values.push_back(val);
         }
     }
-    _models.back().falling_waveform.push_back(wave);
+    _models.back().falling_waveforms.push_back(wave);
 }
 
 
@@ -1083,7 +1077,7 @@ void ibis::_load_rising_waveform(const std::vector<std::string>& v_str)
             wave.values.push_back(val);
         }
     }
-    _models.back().rising_waveform.push_back(wave);
+    _models.back().rising_waveforms.push_back(wave);
 }
 
 
