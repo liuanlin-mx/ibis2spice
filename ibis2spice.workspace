@@ -2,11 +2,11 @@
 <CodeLite_Workspace Name="ibis2spice" Database="" Version="10000">
   <Project Name="ibis2spice" Path="ibis2spice.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="ibis2spice" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="ibis2spice" ConfigName="Release"/>
     </WorkspaceConfiguration>

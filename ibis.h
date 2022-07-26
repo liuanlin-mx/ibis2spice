@@ -202,6 +202,7 @@ public:
 public:
     bool load(const char *ibis_file);
     
+    std::vector<std::string> get_component_names();
     std::vector<std::string> get_model_names();
     std::vector<std::string> get_submodel_names();
     

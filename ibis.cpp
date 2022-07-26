@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <ibis.h>
+#include "ibis.h"
 
 ibis_text_readline::ibis_text_readline()
     : _text(NULL)
@@ -177,6 +177,11 @@ std::vector<std::string> ibis_readline::_split(const std::string& str)
             continue;
         }
         s.push_back(c);
+    }
+    
+    if (!s.empty())
+    {
+        result.push_back(s);
     }
     return result;
 }
@@ -356,6 +361,18 @@ bool ibis::load(const char * ibis_file)
     return true;
 }
 
+
+
+
+std::vector<std::string> ibis::get_component_names()
+{
+    std::vector<std::string> names;
+    for (const auto& component: _components)
+    {
+        names.push_back(component.name);
+    }
+    return names;
+}
 
 
 
