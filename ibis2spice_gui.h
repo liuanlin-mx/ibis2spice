@@ -22,12 +22,14 @@ public:
 private:
     void _update_model_list();
     std::vector<std::string> _split(const std::string& str);
+    void _load_cfg();
+    void _save_cfg();
     
 private:
     std::shared_ptr<ibis2spice> _ibis2spice;
     std::set<std::string> _model_selected;
     std::string _filter_key;
-    wxFileName _filename;
+    std::string _ibs_path;
 };
 
 #endif

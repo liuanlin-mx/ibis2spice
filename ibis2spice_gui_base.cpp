@@ -46,17 +46,45 @@ ibis2spice_gui_base::ibis2spice_gui_base( wxWindow* parent, wxWindowID id, const
 	m_listBoxModelSelected = new wxListBox( sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_MULTIPLE );
 	sbSizer3->Add( m_listBoxModelSelected, 1, wxALL|wxEXPAND, 5 );
 
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_checkBoxTyp = new wxCheckBox( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Typ"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBoxTyp->SetValue(true);
+	bSizer3->Add( m_checkBoxTyp, 1, wxALL, 5 );
+
+	m_checkBoxMin = new wxCheckBox( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Min"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer3->Add( m_checkBoxMin, 1, wxALL, 5 );
+
+	m_checkBoxMax = new wxCheckBox( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Max"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer3->Add( m_checkBoxMax, 0, wxALL, 5 );
+
+
+	sbSizer3->Add( bSizer3, 0, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer2;
+	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
+
 	m_buttonAdd = new wxButton( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Add"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer3->Add( m_buttonAdd, 0, wxEXPAND, 5 );
+	bSizer2->Add( m_buttonAdd, 1, wxEXPAND, 5 );
 
 	m_buttonDel = new wxButton( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Del"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer3->Add( m_buttonDel, 0, wxEXPAND, 5 );
+	bSizer2->Add( m_buttonDel, 1, wxEXPAND, 5 );
+
+
+	sbSizer3->Add( bSizer2, 0, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer4;
+	bSizer4 = new wxBoxSizer( wxHORIZONTAL );
 
 	m_buttonSave = new wxButton( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer3->Add( m_buttonSave, 0, wxEXPAND, 5 );
+	bSizer4->Add( m_buttonSave, 1, wxEXPAND, 5 );
 
 	m_buttonConvert = new wxButton( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Convert"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer3->Add( m_buttonConvert, 0, wxEXPAND, 5 );
+	bSizer4->Add( m_buttonConvert, 1, wxEXPAND, 5 );
+
+
+	sbSizer3->Add( bSizer4, 0, wxEXPAND, 5 );
 
 
 	bSizer1->Add( sbSizer3, 1, wxEXPAND, 5 );

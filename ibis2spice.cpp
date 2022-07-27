@@ -223,7 +223,7 @@ std::string ibis2spice::_gen_ngspice_model_by_model_output(ibis::component& comp
         subckt = subckt + ")\n\n\n";
     }
     
-    if (!pullup.empty())
+    if (!pulldown.empty())
     {
         subckt = subckt + "Bpulldown PULLDOWN VSS V= PWL(V(DIE, WAVEFORM),\n";
         for (const auto& v: pulldown)

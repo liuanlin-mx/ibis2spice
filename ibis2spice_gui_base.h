@@ -19,6 +19,7 @@
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/textctrl.h>
+#include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -41,6 +42,9 @@ class ibis2spice_gui_base : public wxFrame
 		wxListBox* m_listBoxModel;
 		wxTextCtrl* m_textCtrlFilter;
 		wxListBox* m_listBoxModelSelected;
+		wxCheckBox* m_checkBoxTyp;
+		wxCheckBox* m_checkBoxMin;
+		wxCheckBox* m_checkBoxMax;
 		wxButton* m_buttonAdd;
 		wxButton* m_buttonDel;
 		wxButton* m_buttonSave;

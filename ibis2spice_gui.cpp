@@ -25,9 +25,11 @@ void ibis2spice_gui::m_filePickerOnFileChanged( wxFileDirPickerEvent& event )
         return;
     }
     
-    _filename = m_filePicker->GetFileName();
+    _ibs_path = event.GetPath();
     _ibis2spice.reset(new ibis2spice());
     _ibis2spice->load(event.GetPath().ToStdString().c_str());
+    
+    _load_cfg();
     
     std::vector<std::string> component_names = _ibis2spice->get_component_names();
     
@@ -87,7 +89,7 @@ void ibis2spice_gui::m_buttonDelOnButtonClick( wxCommandEvent& event )
 
 void ibis2spice_gui::m_buttonSaveOnButtonClick( wxCommandEvent& event )
 {
-    
+    _save_cfg();
 }
 
 
@@ -107,13 +109,22 @@ void ibis2spice_gui::m_buttonConvertOnButtonClick( wxCommandEvent& event )
     std::string subckt;
     for (const auto& model_name: _model_selected)
     {
-        subckt += _ibis2spice->gen_spice_model_by_model(component_name, model_name, "typ");
-        subckt += _ibis2spice->gen_spice_model_by_model(component_name, model_name, "min");
-        subckt += _ibis2spice->gen_spice_model_by_model(component_name, model_name, "max");
+        if (m_checkBoxTyp->GetValue())
+        {
+            subckt += _ibis2spice->gen_spice_model_by_model(component_name, model_name, "typ");
+        }
+        if (m_checkBoxMin->GetValue())
+        {
+            subckt += _ibis2spice->gen_spice_model_by_model(component_name, model_name, "min");
+        }
+        if (m_checkBoxMax->GetValue())
+        {
+            subckt += _ibis2spice->gen_spice_model_by_model(component_name, model_name, "max");
+        }
     }
+    
     wxFile file;
-    std::string filename = _filename.GetName().ToStdString();
-    file.Open((filename + ".lib"), wxFile::write);
+    file.Open(_ibs_path + ".lib", wxFile::write);
     if (file.IsOpened())
     {
         file.Write(subckt.c_str());
@@ -179,4 +190,42 @@ std::vector<std::string> ibis2spice_gui::_split(const std::string& str)
         result.push_back(s);
     }
     return result;
+}
+
+
+void ibis2spice_gui::_load_cfg()
+{
+    FILE *fp = fopen((_ibs_path + ".ibis2spice").c_str(), "rb");
+    char model_name[1024];
+    if (fp)
+    {
+        while (fgets(model_name, sizeof(model_name), fp))
+        {
+            for (std::uint32_t i = 0; i < sizeof(model_name); i++)
+            {
+                if (model_name[i] == '\r' || model_name[i] == '\n')
+                {
+                    model_name[i] = 0;
+                    break;
+                }
+            }
+            
+            _model_selected.insert(std::string(model_name));
+            m_listBoxModelSelected->Append(std::string(model_name));
+        }
+        fclose(fp);
+    }
+}
+
+void ibis2spice_gui::_save_cfg()
+{
+    FILE *fp = fopen((_ibs_path + ".ibis2spice").c_str(), "wb");
+    if (fp)
+    {
+        for (const std::string& model_name: _model_selected)
+        {
+            fputs((model_name + "\n").c_str(), fp);
+        }
+        fclose(fp);
+    }
 }
