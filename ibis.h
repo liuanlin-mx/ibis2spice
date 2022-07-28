@@ -18,6 +18,9 @@ public:
     std::string look_line();
     
 private:
+    const char *_skip_space(const char *str, const char *end);
+    
+private:
     const char *_text;
     std::uint32_t _len;
     const char *_cur;
@@ -39,7 +42,6 @@ public:
     
 private:
     std::vector<std::string> _split(const std::string& str);
-    
 private:
     ibis_text_readline _readline;
 };
@@ -101,7 +103,7 @@ public:
         std::string name;
         std::string package_model;
         std::string manufacturer;
-        package package_;
+        ibis::package package;
         std::vector<pin> pins;
         std::vector<pin_mapping> pin_mappings;
         std::vector<diff_pin> diff_pins;
@@ -189,7 +191,7 @@ public:
         std::vector<value_string> gnd_clamp;
         std::vector<value_string> pullup;
         std::vector<value_string> power_clamp;
-        ramp ramp_;
+        ibis::ramp ramp;
         std::vector<waveform> falling_waveforms;
         std::vector<waveform> rising_waveforms;
         std::vector<add_submodel> add_submodels;

@@ -24,8 +24,9 @@ void ibis_text_readline::load(const char *text, std::uint32_t len)
 
 std::string ibis_text_readline::read_line()
 {
-    const char *str = _cur;
     const char *end = _text + _len;
+    _cur = _skip_space(_cur, end);
+    const char *str = _cur;
     
     while (_cur < end)
     {
@@ -46,9 +47,10 @@ std::string ibis_text_readline::read_line()
 
 std::string ibis_text_readline::look_line()
 {
-    const char *str = _cur;
     const char *end = _text + _len;
-    const char *cur = _cur;
+    const char *cur = _skip_space(_cur, end);
+    const char *str = cur;
+    
     while (cur < end)
     {
         if (*cur == '\r' || *cur == '\n')
@@ -64,6 +66,19 @@ std::string ibis_text_readline::look_line()
     return std::string(str, cur - str);
 }
 
+
+const char *ibis_text_readline::_skip_space(const char *str, const char *end)
+{
+    while (str < end)
+    {
+        if (!std::isspace(*str))
+        {
+            break;
+        }
+        str++;
+    }
+    return str;
+}
 
 
 ibis_readline::ibis_readline()
@@ -594,21 +609,21 @@ void ibis::_load_package(const std::vector<std::string>& v_str)
         std::string type = _make_lower(_read_n(v_str_, 0));
         if (type == "r_pkg")
         {
-            _components.back().package_.r_pkg.typ = _read_n(v_str_, 1);
-            _components.back().package_.r_pkg.min = _read_n(v_str_, 2);
-            _components.back().package_.r_pkg.max = _read_n(v_str_, 3);
+            _components.back().package.r_pkg.typ = _read_n(v_str_, 1);
+            _components.back().package.r_pkg.min = _read_n(v_str_, 2);
+            _components.back().package.r_pkg.max = _read_n(v_str_, 3);
         }
         else if (type == "l_pkg")
         {
-            _components.back().package_.l_pkg.typ = _read_n(v_str_, 1);
-            _components.back().package_.l_pkg.min = _read_n(v_str_, 2);
-            _components.back().package_.l_pkg.max = _read_n(v_str_, 3);
+            _components.back().package.l_pkg.typ = _read_n(v_str_, 1);
+            _components.back().package.l_pkg.min = _read_n(v_str_, 2);
+            _components.back().package.l_pkg.max = _read_n(v_str_, 3);
         }
         else if (type == "c_pkg")
         {
-            _components.back().package_.c_pkg.typ = _read_n(v_str_, 1);
-            _components.back().package_.c_pkg.min = _read_n(v_str_, 2);
-            _components.back().package_.c_pkg.max = _read_n(v_str_, 3);
+            _components.back().package.c_pkg.typ = _read_n(v_str_, 1);
+            _components.back().package.c_pkg.min = _read_n(v_str_, 2);
+            _components.back().package.c_pkg.max = _read_n(v_str_, 3);
         }
     }
 }
@@ -989,19 +1004,19 @@ void ibis::_load_ramp(const std::vector<std::string>& v_str)
         
         if (type == "r_load")
         {
-            _models.back().ramp_.r_load = _read_n(v_str_, 2);
+            _models.back().ramp.r_load = _read_n(v_str_, 2);
         }
         else if (type == "dv/dt_r")
         {
-            _models.back().ramp_.dv_dt_r.typ = _read_n(v_str_, 1);
-            _models.back().ramp_.dv_dt_r.min = _read_n(v_str_, 2);
-            _models.back().ramp_.dv_dt_r.max = _read_n(v_str_, 3);
+            _models.back().ramp.dv_dt_r.typ = _read_n(v_str_, 1);
+            _models.back().ramp.dv_dt_r.min = _read_n(v_str_, 2);
+            _models.back().ramp.dv_dt_r.max = _read_n(v_str_, 3);
         }
         else if (type == "dv/dt_f")
         {
-            _models.back().ramp_.dv_dt_f.typ = _read_n(v_str_, 1);
-            _models.back().ramp_.dv_dt_f.min = _read_n(v_str_, 2);
-            _models.back().ramp_.dv_dt_f.max = _read_n(v_str_, 3);
+            _models.back().ramp.dv_dt_f.typ = _read_n(v_str_, 1);
+            _models.back().ramp.dv_dt_f.min = _read_n(v_str_, 2);
+            _models.back().ramp.dv_dt_f.max = _read_n(v_str_, 3);
         }
     }
 }
