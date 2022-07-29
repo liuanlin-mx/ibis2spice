@@ -2,13 +2,17 @@
 <CodeLite_Workspace Name="ibis2spice" Database="" Version="10000">
   <Project Name="ibis2spice" Path="ibis2spice.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug">
       <Environment/>
       <Project Name="ibis2spice" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="no">
+    <WorkspaceConfiguration Name="Release">
       <Environment/>
       <Project Name="ibis2spice" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="cmake">
+      <Environment/>
+      <Project Name="ibis2spice" ConfigName="cmake"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
