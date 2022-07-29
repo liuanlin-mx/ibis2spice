@@ -46,8 +46,7 @@ execute_process(COMMAND
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 string(STRIP ${CL_TMP_VAR} CL_VAR_1)
 add_definitions(${CL_VAR_1})
-add_definitions(-g)
-add_definitions(-O0)
+add_definitions(-O2)
 add_definitions(-Wall)
 add_definitions(
     -D_FILE_OFFSET_BITS=64
@@ -80,15 +79,15 @@ link_directories(
 # Define the CXX sources
 set ( CXX_SRCS
     ${CMAKE_CURRENT_LIST_DIR}/ibis.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/main.cpp
     ${CMAKE_CURRENT_LIST_DIR}/ibis2spice.cpp
     ${CMAKE_CURRENT_LIST_DIR}/ibis2spice_gui.cpp
     ${CMAKE_CURRENT_LIST_DIR}/ibis2spice_gui_base.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/main.cpp
 )
 
 set_source_files_properties(
     ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 
-    " -g -O0 -Wall -pthread")
+    " -O2 -Wall -pthread")
 
 if(WIN32)
     enable_language(RC)
