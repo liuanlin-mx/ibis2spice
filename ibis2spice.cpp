@@ -142,12 +142,12 @@ std::string ibis2spice::_gen_ngspice_model_by_model_output(ibis::component& comp
     sprintf(buf, "*** vinh:%s vinl:%s ***\n", model.v_in_h.c_str(), model.v_in_l.c_str());
     subckt = subckt + buf;
     
-    sprintf(buf, ".SUBCKT %s_%s_OUTPUT OUT VCC VSS freq=500Meg duty=0.5\n", _make_upper(model.name).c_str(), _make_upper(type).c_str());
+    sprintf(buf, ".SUBCKT %s_%s_OUTPUT OUT VCC VSS freq=500Meg duty=0.5 td=0\n", _make_upper(model.name).c_str(), _make_upper(type).c_str());
     subckt = subckt + buf;
     subckt = subckt + "\n";
 
-    subckt = subckt + "V1 S 0 PWL(0 1 {(duty / freq)} 1 {(duty / freq)} 0 {(1 / freq)} 0) r=0\n";
-    subckt = subckt + "V2 T 0 PWL(0 0 {(duty / freq)} {(duty / freq)} {(duty / freq)} 0 {(1 / freq)} {((1 - duty) / freq)} ) r=0\n";
+    subckt = subckt + "V1 S 0 PWL(0 1 {(duty / freq)} 1 {(duty / freq)} 0 {(1 / freq)} 0) r=0 td={td}\n";
+    subckt = subckt + "V2 T 0 PWL(0 0 {(duty / freq)} {(duty / freq)} {(duty / freq)} 0 {(1 / freq)} {((1 - duty) / freq)} ) r=0 td={td}\n";
         
     subckt = subckt + "\n";
     
