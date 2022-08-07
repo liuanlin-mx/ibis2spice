@@ -797,7 +797,7 @@ std::vector<std::pair<float, float> > ibis2spice::_read_two_col(std::vector<ibis
     for (const auto& value: values)
     {
         std::pair<float, float>  v;
-        v.first = std::atof(value.ref.c_str());
+        v.first = _string_to_float(value.ref);
         
         std::string val = _read_value_string(value, type);
         if (val == "NA")
