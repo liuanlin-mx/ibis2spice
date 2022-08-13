@@ -202,7 +202,7 @@ public:
     ~ibis();
     
 public:
-    bool load(const char *ibis_file);
+    bool load(const char *ibis_content);
     
     std::vector<std::string> get_component_names();
     std::vector<std::string> get_model_names();

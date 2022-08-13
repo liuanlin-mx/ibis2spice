@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <wx/textfile.h>
 #include "ibis2spice_gui.h"
 
 ibis2spice_gui::ibis2spice_gui()
@@ -26,8 +27,18 @@ void ibis2spice_gui::m_filePickerOnFileChanged( wxFileDirPickerEvent& event )
     }
     
     _ibs_path = event.GetPath();
+    wxFile file;
+    file.Open(_ibs_path,  wxFile::read);
+    if (!file.IsOpened())
+    {
+        return;
+    }
+    wxString ibis_content;
+    file.ReadAll(&ibis_content);
+    file.Close();
+    
     _ibis2spice.reset(new ibis2spice());
-    _ibis2spice->load(event.GetPath().ToStdString().c_str());
+    _ibis2spice->load(ibis_content.data());
     
     _load_cfg();
     
@@ -124,7 +135,7 @@ void ibis2spice_gui::m_buttonConvertOnButtonClick( wxCommandEvent& event )
     }
     
     wxFile file;
-    file.Open(_ibs_path + ".lib", wxFile::write);
+    file.Open((_ibs_path + ".lib").c_str(), wxFile::write);
     if (file.IsOpened())
     {
         file.Write(subckt.c_str());
@@ -195,37 +206,33 @@ std::vector<std::string> ibis2spice_gui::_split(const std::string& str)
 
 void ibis2spice_gui::_load_cfg()
 {
-    FILE *fp = fopen((_ibs_path + ".ibis2spice").c_str(), "rb");
-    char model_name[1024];
-    if (fp)
+    wxTextFile file;
+    file.Open(_ibs_path + ".ibis2spice");
+    if (!file.IsOpened())
     {
-        while (fgets(model_name, sizeof(model_name), fp))
-        {
-            for (std::uint32_t i = 0; i < sizeof(model_name); i++)
-            {
-                if (model_name[i] == '\r' || model_name[i] == '\n')
-                {
-                    model_name[i] = 0;
-                    break;
-                }
-            }
-            
-            _model_selected.insert(std::string(model_name));
-            m_listBoxModelSelected->Append(std::string(model_name));
-        }
-        fclose(fp);
+        return;
     }
+    
+    while (file.Eof() == false)
+    {
+        wxString line = file.GetNextLine();
+        _model_selected.insert(line.ToStdString());
+        m_listBoxModelSelected->Append(line.ToStdString());
+    }
+    
+    file.Close();
 }
 
 void ibis2spice_gui::_save_cfg()
 {
-    FILE *fp = fopen((_ibs_path + ".ibis2spice").c_str(), "wb");
-    if (fp)
+    wxFile file;
+    file.Open(_ibs_path + ".ibis2spice", wxFile::write);
+    if (file.IsOpened())
     {
         for (const std::string& model_name: _model_selected)
         {
-            fputs((model_name + "\n").c_str(), fp);
+            file.Write((model_name + "\n"));
         }
-        fclose(fp);
+        file.Close();
     }
 }

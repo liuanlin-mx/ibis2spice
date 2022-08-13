@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <string.h>
 #include "ibis.h"
 
 ibis_text_readline::ibis_text_readline()
@@ -210,27 +211,13 @@ ibis::~ibis()
 {
 }
 
-bool ibis::load(const char * ibis_file)
+bool ibis::load(const char *ibis_content)
 {
-    FILE *fp = fopen(ibis_file, "rb");
-    if (fp == NULL)
-    {
-        return false;
-    }
-    fseek(fp, 0, SEEK_END);
-    std::int32_t flen = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-    _text_buf.resize(flen + 1);
-    
-    std::int32_t rlen = fread(&_text_buf[0], 1, flen, fp);
-    fclose(fp);
-    if (rlen <= 0)
-    {
-        return false;
-    }
-    
-    _text_buf.resize(rlen);
-    _readline.load(&_text_buf[0], rlen);
+    std::uint32_t len = strlen(ibis_content);
+    _text_buf.resize(len + 1);
+    memcpy(&_text_buf[0], ibis_content, len);
+    _text_buf[len] = 0;
+    _readline.load(&_text_buf[0], len);
     
     while (1)
     {

@@ -12,9 +12,9 @@ ibis2spice::~ibis2spice()
 
 
 
-bool ibis2spice::load(const char * ibis_file)
+bool ibis2spice::load(const char *ibis_content)
 {
-    return _ibs.load(ibis_file);
+    return _ibs.load(ibis_content);
 }
 
 

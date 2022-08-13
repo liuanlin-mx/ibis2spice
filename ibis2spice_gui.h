@@ -29,7 +29,7 @@ private:
     std::shared_ptr<ibis2spice> _ibis2spice;
     std::set<std::string> _model_selected;
     std::string _filter_key;
-    std::string _ibs_path;
+    wxString _ibs_path;
 };
 
 #endif
