@@ -10,11 +10,27 @@ void test()
     const char *ibs_file[] = {
     };
     
+    static char buf[1024 * 1024 * 16];
     for (std::uint32_t i = 0; i < sizeof(ibs_file) / sizeof(ibs_file[0]); i++)
     {
         std::string subckt;
         ibis2spice ibs;
-        ibs.load(ibs_file[i]);
+        
+        {
+            FILE *fp = fopen(ibs_file[i], "rb");
+            if (fp)
+            {
+                std::int32_t rlen = fread(buf, 1, sizeof(buf), fp);
+                buf[rlen] = 0;
+                fclose(fp);
+            }
+            else
+            {
+                continue;
+            }
+        }
+        
+        ibs.load(buf);
         std::vector<std::string> model_names = ibs.get_model_names();
         std::vector<std::string> component_names = ibs.get_component_names();
         for (auto& model_name: model_names)

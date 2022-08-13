@@ -216,8 +216,11 @@ void ibis2spice_gui::_load_cfg()
     while (file.Eof() == false)
     {
         wxString line = file.GetNextLine();
-        _model_selected.insert(line.ToStdString());
-        m_listBoxModelSelected->Append(line.ToStdString());
+        if (line.length() > 0)
+        {
+            _model_selected.insert(line.ToStdString());
+            m_listBoxModelSelected->Append(line.ToStdString());
+        }
     }
     
     file.Close();
