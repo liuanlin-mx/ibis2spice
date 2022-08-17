@@ -22,6 +22,7 @@ public:
 private:
     void _update_model_list();
     std::vector<std::string> _split(const std::string& str);
+    std::vector<std::string> _string_split(std::string str, const std::string& key);
     void _load_cfg();
     void _save_cfg();
     

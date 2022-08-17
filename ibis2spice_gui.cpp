@@ -204,26 +204,48 @@ std::vector<std::string> ibis2spice_gui::_split(const std::string& str)
 }
 
 
+std::vector<std::string> ibis2spice_gui::_string_split(std::string str, const std::string& key)
+{
+    std::vector<std::string> out;
+    std::string::size_type begin = 0;
+    std::string::size_type end = 0;
+    while ((end = str.find(key, begin)) != str.npos)
+    {
+        out.push_back(str.substr(begin, end - begin));
+        begin = end + key.size();
+    }
+    if (begin < str.size())
+    {
+        out.push_back(str.substr(begin, end - begin));
+    }
+    
+    return out;
+}
+
 void ibis2spice_gui::_load_cfg()
 {
-    wxTextFile file;
-    file.Open(_ibs_path + ".ibis2spice");
+    wxFile file;
+    file.Open(_ibs_path + ".ibis2spice", wxFile::read);
     if (!file.IsOpened())
     {
         return;
     }
-    
-    while (file.Eof() == false)
+    wxString str;
+    file.ReadAll(&str);
+    file.Close();
+    std::vector<std::string> vstr = _string_split(str.ToStdString(), "\n");
+    for (auto& s: vstr)
     {
-        wxString line = file.GetNextLine();
-        if (line.length() > 0)
+        while (s.back() == '\n' || s.back() == '\r')
         {
-            _model_selected.insert(line.ToStdString());
-            m_listBoxModelSelected->Append(line.ToStdString());
+            s.pop_back();
+        }
+        if (s.length() > 0)
+        {
+            _model_selected.insert(s);
+            m_listBoxModelSelected->Append(s);
         }
     }
-    
-    file.Close();
 }
 
 void ibis2spice_gui::_save_cfg()
@@ -234,7 +256,7 @@ void ibis2spice_gui::_save_cfg()
     {
         for (const std::string& model_name: _model_selected)
         {
-            file.Write((model_name + "\n"));
+            file.Write((model_name + "\r\n"));
         }
         file.Close();
     }
