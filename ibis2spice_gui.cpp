@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <wx/textfile.h>
+#include <wx/msgdlg.h>
 #include "ibis2spice_gui.h"
 
 ibis2spice_gui::ibis2spice_gui()
@@ -141,6 +141,8 @@ void ibis2spice_gui::m_buttonConvertOnButtonClick( wxCommandEvent& event )
         file.Write(subckt.c_str());
         file.Close();
     }
+    
+    wxMessageBox("completed", "completed", wxOK, this);
 }
 
 
@@ -225,6 +227,11 @@ std::vector<std::string> ibis2spice_gui::_string_split(std::string str, const st
 void ibis2spice_gui::_load_cfg()
 {
     wxFile file;
+    if (wxFile::Exists(_ibs_path + ".ibis2spice") == false)
+    {
+        return;
+    }
+    
     file.Open(_ibs_path + ".ibis2spice", wxFile::read);
     if (!file.IsOpened())
     {
